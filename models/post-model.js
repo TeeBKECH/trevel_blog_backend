@@ -21,25 +21,23 @@ const PostSchema = new mongoose.Schema(
     locations: [
       {
         title: { type: String, default: '' },
-        descriptions: { type: String, default: '' },
+        description: { type: String, default: '' },
         images: [
           {
             type: String,
             default: '',
           },
         ],
-        coordinates: [
-          {
-            lat: {
-              type: Number,
-              default: null,
-            },
-            lon: {
-              type: Number,
-              default: null,
-            },
+        coordinates: {
+          lat: {
+            type: Number,
+            default: null,
           },
-        ],
+          lon: {
+            type: Number,
+            default: null,
+          },
+        },
       },
     ],
   },

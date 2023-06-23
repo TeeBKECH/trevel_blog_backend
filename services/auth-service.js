@@ -19,16 +19,13 @@ export const registration = async (email, password) => {
   const hashPassword = await bcrypt.hash(password, 4)
   const activationLink = v4()
   const roles =
-    email === process.env.SUPER_ADMIN_EMAIL
-      ? ['CUSTOMER', 'MANAGER', 'ADMIN', 'SUPER_ADMIN']
-      : ['CUSTOMER']
+    email === process.env.SUPER_ADMIN_EMAIL ? ['USER', 'MANAGER', 'ADMIN', 'SUPER_ADMIN'] : ['USER']
 
   const user = await UserModel.create({
     email,
     password: hashPassword,
     activationLink,
     roles,
-    orders: [],
   })
 
   await roleService.updateRoles(roles, user._id)

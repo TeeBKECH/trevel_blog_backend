@@ -28,7 +28,7 @@ export const deletePost = async (id) => {
 
 export const getOnePost = async (id) => {
   const objId = mongoose.Types.ObjectId(id)
-  const post = await ProductModel.findOne({ _id: objId }).populate('tags').exec()
+  const post = await ProductModel.findOne({ _id: objId })
 
   if (!post) {
     throw ApiError.NotFoundError(`Пост не найден`)
@@ -38,7 +38,9 @@ export const getOnePost = async (id) => {
 }
 
 export const getAllPosts = async () => {
-  const posts = await PostModel.find().populate('tags').exec()
+  const posts = await PostModel.find()
+    .populate('user', '_id nickname nationality firstName lastName avatar')
+    .exec()
 
   if (posts.length === 0) {
     throw ApiError.NotFoundError(`Посты не найдены`)
