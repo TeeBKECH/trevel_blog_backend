@@ -87,7 +87,7 @@ export const getUsers = async (req, res, next) => {
 
 export const getMe = async (req, res, next) => {
   try {
-    const user = req.user
+    const { user } = req
     const userData = await authService.getMe(user.id)
     return res.json(userData)
   } catch (error) {
