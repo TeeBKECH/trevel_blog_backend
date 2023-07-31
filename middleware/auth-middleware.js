@@ -10,12 +10,12 @@ export default (req, res, next) => {
     const accessToken = req.headers.authorization.split(' ')[1]
 
     if (!accessToken) {
-      return next(ApiError.UnauthorizedError())
+      throw ApiError.UnauthorizedError()
     }
 
     const data = validateToken(accessToken, 'access')
     if (!data) {
-      return next(ApiError.UnauthorizedError())
+      throw ApiError.UnauthorizedError()
     }
     req.user = data
     next()

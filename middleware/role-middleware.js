@@ -10,10 +10,15 @@ export default (userRoles) => {
     try {
       const token = req.headers.authorization.split(' ')[1]
       if (!token) {
-        return next(ApiError.UnauthorizedError())
+        throw ApiError.UnauthorizedError()
       }
 
       const data = validateToken(token, 'access')
+
+      if (!data) {
+        throw ApiError.UnauthorizedError()
+      }
+
       let hasRole = false
       data.roles.forEach((role) => {
         if (userRoles.includes(role)) {
@@ -22,12 +27,9 @@ export default (userRoles) => {
       })
 
       if (!hasRole) {
-        return next(ApiError.AccessDenied())
+        throw throwApiError.AccessDenied()
       }
 
-      if (!data) {
-        return next(ApiError.UnauthorizedError())
-      }
       req.user = data
       next()
     } catch (e) {

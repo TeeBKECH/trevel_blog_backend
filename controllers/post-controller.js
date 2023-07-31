@@ -1,24 +1,5 @@
 import * as postService from '../services/post-service.js'
 
-export const getPosts = async (req, res, next) => {
-  try {
-    const posts = await postService.getAllPosts()
-    return res.json(posts)
-  } catch (error) {
-    next(error)
-  }
-}
-
-export const getPost = async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const post = await postService.getOnePost(id)
-    return res.json(post)
-  } catch (error) {
-    next(error)
-  }
-}
-
 export const addPost = async (req, res, next) => {
   try {
     const { user } = req
@@ -46,6 +27,25 @@ export const deletePost = async (req, res, next) => {
     const { id } = req.params
     const post = await postService.deletePost(id)
     return res.json(post)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getPost = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const post = await postService.getPost(id)
+    return res.json(post)
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const getPosts = async (req, res, next) => {
+  try {
+    const posts = await postService.getPosts()
+    return res.json(posts)
   } catch (error) {
     next(error)
   }

@@ -17,18 +17,30 @@ export const updatePost = async (data, id) => {
     { returnDocument: 'after' },
   )
 
+  if (!post) {
+    throw ApiError.NotFoundError(`Пост с ID ${id} не найден`)
+  }
+
   return post
 }
 
 export const deletePost = async (id) => {
   const post = await PostModel.findByIdAndDelete(id)
 
+  if (!post) {
+    throw ApiError.NotFoundError(`Пост с ID ${id} не найден`)
+  }
+
   return post
 }
 
-export const getOnePost = async (id) => {
-  const objId = mongoose.Types.ObjectId(id)
-  const post = await ProductModel.findOne({ _id: objId })
+export const getPost = async (id) => {
+  // const objId = mongoose.Types.ObjectId(id)
+  const post = await PostModel.findOneAndUpdate(
+    { _id: id },
+    { $inc: { views: 1 } },
+    { returnDocument: 'after' },
+  )
 
   if (!post) {
     throw ApiError.NotFoundError(`Пост не найден`)
@@ -37,9 +49,9 @@ export const getOnePost = async (id) => {
   return post
 }
 
-export const getAllPosts = async () => {
+export const getPosts = async () => {
   const posts = await PostModel.find()
-    .populate('user', '_id nickname nationality firstName lastName avatar')
+    .populate('user', '_id nickName firstName lastName avatar')
     .exec()
 
   if (posts.length === 0) {

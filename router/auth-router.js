@@ -1,27 +1,17 @@
 import { Router } from 'express'
-import { body } from 'express-validator'
 
 import * as authController from '../controllers/auth-controller.js'
 import authMiddleware from '../middleware/auth-middleware.js'
+import { registerValidator, validatorErrors, loginValidator } from '../utils/validator.js'
 
 const router = new Router()
 
 // API Авторизации / регистрации пользователей
-router.post(
-  '/registration',
-  body('email').isEmail(),
-  body('password').isLength({ min: 7, max: 16 }),
-  authController.registration,
-)
-router.post(
-  '/login',
-  body('email').isEmail(),
-  body('password').isLength({ min: 7, max: 16 }),
-  authController.login,
-)
-router.post('/logout', authController.logout)
-router.get('/refresh', authController.refresh)
-router.get('/profile', authMiddleware, authController.getMe)
+router.post('/registration', registerValidator, validatorErrors, authController.registration)
+router.post('/login', loginValidator, validatorErrors, authController.login)
+router.get('/me', authMiddleware, authController.getMe)
+router.get('/logout', authMiddleware, authController.logout)
 router.get('/activate/:link', authController.activate)
+router.get('/refresh', authController.refresh)
 
 export default router

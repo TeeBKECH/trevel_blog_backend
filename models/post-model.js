@@ -2,44 +2,21 @@ import mongoose from 'mongoose'
 
 const PostSchema = new mongoose.Schema(
   {
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-    country: { type: String, required: true },
-    city: { type: String },
-    text: { type: String, length: { min: 3, max: 350 }, default: '' },
-    image: { type: String, default: '' },
-    rating: [
-      {
-        type: Number,
-        min: 0,
-        max: 5,
-      },
-    ],
-    recommend: {
+    title: {
       type: String,
-      enum: ['COOL', 'OK', 'BAD'],
-    },
-    locations: [
-      {
-        title: { type: String, default: '' },
-        description: { type: String, default: '' },
-        images: [
-          {
-            type: String,
-            default: '',
-          },
-        ],
-        coordinates: {
-          lat: {
-            type: Number,
-            default: null,
-          },
-          lon: {
-            type: Number,
-            default: null,
-          },
-        },
+      required: true,
+      length: {
+        min: 3,
+        max: 35,
       },
-    ],
+    },
+    text: { type: String, length: { min: 3, max: 350 }, default: '' },
+    imageUrl: { type: String, default: '' },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    views: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

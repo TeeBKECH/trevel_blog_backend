@@ -32,10 +32,14 @@ app.use(errorMiddleware)
 
 const startApp = () => {
   try {
-    mongoose.set('strictQuery', true).connect(process.env.DB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    })
+    mongoose
+      .set('strictQuery', true)
+      .connect(process.env.DB_URL, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      })
+      .then(() => console.log('Connected to DB'))
+      .catch((err) => console.log(err))
     app.listen(PORT, () => {
       console.log(`Server has been started on port ${PORT}`)
     })
