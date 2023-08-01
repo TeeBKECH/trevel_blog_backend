@@ -41,6 +41,8 @@ export const getPost = async (id) => {
     { $inc: { views: 1 } },
     { returnDocument: 'after' },
   )
+    .populate('user', '_id nickName firstName lastName avatar')
+    .exec()
 
   if (!post) {
     throw ApiError.NotFoundError(`Пост не найден`)
@@ -51,6 +53,7 @@ export const getPost = async (id) => {
 
 export const getPosts = async () => {
   const posts = await PostModel.find()
+    .limit(10)
     .populate('user', '_id nickName firstName lastName avatar')
     .exec()
 

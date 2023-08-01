@@ -9,10 +9,10 @@ export const getUsers = async (req, res, next) => {
   }
 }
 
-export const getOneUser = async (req, res, next) => {
+export const getUser = async (req, res, next) => {
   try {
     const { id } = req.params
-    const user = await userService.getOneUser(id)
+    const user = await userService.getUser(id)
     return res.json(user)
   } catch (error) {
     next(error)

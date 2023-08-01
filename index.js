@@ -27,7 +27,7 @@ app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }))
 app.use('/static', express.static(path.resolve(__dirname, 'uploads')))
 app.use('/api/', apiRouter)
 app.use('/api/auth', authRouter)
-app.use('/api/user', userRouter)
+app.use('/api/users', userRouter)
 app.use(errorMiddleware)
 
 const startApp = () => {

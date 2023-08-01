@@ -16,9 +16,25 @@ export const getUsers = async () => {
   return users
 }
 
-export const getOneUser = async (id) => {
+export const getUser = async (id) => {
   const user = await UserModel.findById(id)
-  return user
+
+  if (!user) {
+    throw ApiError.NotFoundError('Пользователь не найден')
+  }
+
+  const {
+    password,
+    activationLink,
+    isActivated,
+    email,
+    createdAt,
+    phoneNumber,
+    updatedAt,
+    ...userData
+  } = user._doc
+
+  return userData
 }
 
 export const addUser = async ({ email, password, firstName, lastName, phoneNumber, roles }) => {
